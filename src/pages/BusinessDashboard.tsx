@@ -5,7 +5,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../co
 import { Badge } from '../components/ui/badge'
 import { Plus, Settings, QrCode, MessageCircle, TrendingUp, AlertTriangle } from 'lucide-react'
 import blink from '../blink/client'
-import { useAuth } from '../contexts/AuthContext'
+import { useAuth } from '../hooks/useAuth'
 import { useToast } from '../hooks/use-toast'
 
 interface Business {

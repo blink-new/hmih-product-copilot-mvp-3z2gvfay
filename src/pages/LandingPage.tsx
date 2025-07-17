@@ -4,13 +4,20 @@ import { Button } from '../components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../components/ui/card'
 import { Dialog, DialogContent, DialogTrigger, DialogTitle, DialogHeader } from '../components/ui/dialog'
 import { QrCode, MessageCircle, Zap, Shield } from 'lucide-react'
-import { useAuth } from '../contexts/AuthContext'
+import { useAuth } from '../hooks/useAuth'
 import EmailAuthForm from '../components/auth/EmailAuthForm'
 
 const LandingPage: React.FC = () => {
   const [showAuthDialog, setShowAuthDialog] = useState(false)
-  const { user } = useAuth()
+  const { user, isLoading } = useAuth()
   const navigate = useNavigate()
+
+  // Redirect authenticated users to dashboard
+  React.useEffect(() => {
+    if (!isLoading && user) {
+      navigate('/dashboard')
+    }
+  }, [user, isLoading, navigate])
 
   const handleGetStarted = () => {
     if (user) {

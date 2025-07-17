@@ -7,6 +7,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '../ui/tabs'
 import { Alert, AlertDescription } from '../ui/alert'
 import { Loader2, Mail, Lock, User } from 'lucide-react'
 import { useToast } from '../../hooks/use-toast'
+import { useAuth } from '../../hooks/useAuth'
 
 interface EmailAuthFormProps {
   onSuccess?: () => void
@@ -16,6 +17,7 @@ const EmailAuthForm: React.FC<EmailAuthFormProps> = ({ onSuccess }) => {
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState('')
   const { toast } = useToast()
+  const { signIn } = useAuth()
 
   // Sign Up Form State
   const [signUpData, setSignUpData] = useState({
@@ -72,12 +74,13 @@ const EmailAuthForm: React.FC<EmailAuthFormProps> = ({ onSuccess }) => {
       existingUsers.push(newUser)
       localStorage.setItem('hmih_all_users', JSON.stringify(existingUsers))
 
-      // Store user session
-      localStorage.setItem('hmih_user', JSON.stringify({
+      // Sign in the user using the auth context
+      const userData = {
         id: newUser.id,
         name: newUser.name,
         email: newUser.email
-      }))
+      }
+      signIn(userData)
 
       toast({
         title: 'Account created successfully!',
@@ -117,12 +120,13 @@ const EmailAuthForm: React.FC<EmailAuthFormProps> = ({ onSuccess }) => {
         throw new Error('Invalid email or password')
       }
 
-      // Store user session
-      localStorage.setItem('hmih_user', JSON.stringify({
+      // Sign in the user using the auth context
+      const userData = {
         id: user.id,
         name: user.name,
         email: user.email
-      }))
+      }
+      signIn(userData)
 
       toast({
         title: 'Welcome back!',
